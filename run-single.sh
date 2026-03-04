@@ -6,14 +6,15 @@ echo "======================================"
 echo "🚀 เริ่มทำงาน: $DOMAIN"
 echo "======================================"
 
-USERNAME=$(grep "$DOMAIN" /etc/userdatadomains | awk -F'==' '{print $1}' | awk -F': ' '{print $2}' | tr -d ' ')
+# ดึง path จริงจาก field ที่ 5 (แยกด้วย ==)
+LINE=$(grep "^$DOMAIN:" /etc/userdatadomains | head -1)
+USERNAME=$(echo "$LINE" | awk -F'==' '{print $1}' | awk -F': ' '{print $2}' | tr -d ' ')
+WP_PATH=$(echo "$LINE" | awk -F'==' '{print $5}')
 
-if [ -z "$USERNAME" ]; then
-  echo "❌ หา username ไม่เจอ: $DOMAIN"
+if [ -z "$WP_PATH" ]; then
+  echo "❌ หา path ไม่เจอ: $DOMAIN"
   exit 1
 fi
-
-WP_PATH="/home/$USERNAME/public_html"
 
 if [ ! -f "$WP_PATH/wp-config.php" ]; then
   echo "❌ ไม่พบ wp-config.php ที่ $WP_PATH"
