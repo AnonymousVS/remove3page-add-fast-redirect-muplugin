@@ -9,7 +9,7 @@
 remove3page-add-fast-redirect-muplugin/
 ├── fast-redirect.php   ← mu-plugin ที่วางในทุกเว็บ
 ├── url-link.json       ← แก้ URL redirect ที่นี่ที่เดียว
-├── run-single.sh       ← ทดสอบ 1 เว็บ
+├── run-single.sh       ← สุ่ม 1 เว็บ แล้วทดสอบ
 ├── run-all.sh          ← รันทุกเว็บทั้ง server
 └── README.md
 ```
@@ -31,15 +31,19 @@ remove3page-add-fast-redirect-muplugin/
 
 ## 🚀 คำสั่งรัน
 
-### ทดสอบ 1 เว็บก่อน
+### ทดสอบ สุ่ม 1 เว็บ (Random)
 ```bash
-bash <(curl -s https://raw.githubusercontent.com/ufavision/remove3page-add-fast-redirect-muplugin/main/run-single.sh) fifa8989.co
+bash <(curl -s https://raw.githubusercontent.com/ufavision/remove3page-add-fast-redirect-muplugin/main/run-single.sh)
 ```
+- สุ่มเลือก 1 เว็บจากทุก WordPress ใน server
+- แสดงรายชื่อเว็บที่แก้ไขไปแล้ววันนี้
 
 ### รันทุกเว็บทั้ง Server
 ```bash
 bash <(curl -s https://raw.githubusercontent.com/ufavision/remove3page-add-fast-redirect-muplugin/main/run-all.sh)
 ```
+- รันทุกเว็บพร้อมกัน (Parallel ตาม Spec เครื่อง)
+- รองรับทุก /home, /home2 ... /home10
 
 ---
 
@@ -75,7 +79,7 @@ cat /root/redirect-logs/no-pages-found.log
 3. รองรับทุก path เช่น /home /home2 /home3 ... /home10
 4. ลบหน้า /login-2 /register-2 /contact-us-2 ออกจาก Database
 5. สร้างโฟลเดอร์ mu-plugins (ถ้ายังไม่มี)
-6. วางไฟล์ fast-redirect.php
+6. วางไฟล์ fast-redirect.php (เขียนทับถ้ามีอยู่แล้ว)
 7. เก็บ log ทุก case
 ```
 
@@ -108,9 +112,11 @@ cat /root/redirect-logs/no-pages-found.log
 - ถ้าเว็บไหนมี fast-redirect.php อยู่แล้ว → เขียนทับด้วยไฟล์ใหม่
 - ถ้าเว็บไหนไม่มีหน้าที่ต้องลบ → ข้ามไปทำขั้นตอนถัดไป
 - ไม่ใช่ WordPress → ข้ามทั้งหมด
+- url-link.json มี Cache 5 นาที หลังแก้ไขรอ 5 นาทีมีผลอัตโนมัติ
 
 ---
 
 ## 👤 ข้อมูล
 
 - GitHub: [ufavision](https://github.com/ufavision)
+- Redirect ปลายทาง: member.ufavisions.com
