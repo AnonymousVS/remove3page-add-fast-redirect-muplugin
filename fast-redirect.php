@@ -1,18 +1,35 @@
 <?php
 /*
 Plugin Name: Fast Redirect (PageSpeed Friendly)
-Description: ระบบ Redirect ความเร็วสูง + ไม่กวนหน้าแรก + รองรับ Google
-Version: 10.0 (Final)
+Description: ระบบ Redirect ความเร็วสูง + ดึง Config จาก GitHub
+Version: 11.0
 */
 add_action('muplugins_loaded', function() {
+
     $path = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
-    $routes = [
-        '/login-2'      => 'https://member.ufavisions.com/',
-        '/register-2'   => 'https://member.ufavisions.com/register',
-        '/contact-us-2' => 'https://member.ufavisions.com/contact-us',
-    ];
-    if (!isset($routes[$path])) return;
-    $url = $routes[$path];
+
+    // ===== ดึง url-link.json จาก GitHub (Cache 5 นาที) =====
+    $cache_file = sys_get_temp_dir() . '/fast-redirect-url-link.json';
+    $cache_time = 300; // 5 นาที
+
+    if (!file_exists($cache_file) || (time() - filemtime($cache_file)) > $cache_time) {
+        $json = @file_get_contents(
+            'https://raw.githubusercontent.com/ufavision/remove3page-add-fast-redirect-muplugin/main/url-link.json'
+        );
+        if ($json) {
+            file_put_contents($cache_file, $json);
+        }
+    }
+
+    $url_link = [];
+    if (file_exists($cache_file)) {
+        $url_link = json_decode(file_get_contents($cache_file), true) ?? [];
+    }
+
+    if (empty($url_link) || !isset($url_link[$path])) return;
+
+    $url = $url_link[$path];
+
     header("Cache-Control: no-store, max-age=0");
     header("X-LiteSpeed-Cache-Control: public, max-age=300");
     http_response_code(200);
@@ -35,3 +52,22 @@ add_action('muplugins_loaded', function() {
     exit;
 });
 ?>
+```
+
+---
+
+## สรุปสิ่งที่เปลี่ยน
+
+| รายการ | เดิม | ใหม่ |
+|---|---|---|
+| ชื่อไฟล์ | `routes.json` | `url-link.json` ✅ |
+| ชื่อตัวแปร | `$routes` | `$url_link` ✅ |
+| ชื่อ cache | `fast-redirect-routes.json` | `fast-redirect-url-link.json` ✅ |
+| URL ดึง json | `.../routes.json` | `.../url-link.json` ✅ |
+
+---
+
+## ไฟล์ที่ต้องอัพเดทบน GitHub
+```
+1. สร้างไฟล์ใหม่  → url-link.json
+2. อัพเดทไฟล์เดิม → fast-redirect.php
