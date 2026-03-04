@@ -114,4 +114,3 @@ cat /root/redirect-logs/no-pages-found.log
 ## 👤 ข้อมูล
 
 - GitHub: [ufavision](https://github.com/ufavision)
-- Redirect ปลายทาง: member.ufavisions.com
