@@ -18,29 +18,20 @@ remove3page-add-fast-redirect-muplugin/
 
 ## ⚙️ การตั้งค่า URL Redirect
 
-แก้ไขที่ไฟล์ `url-link.json` เพียงที่เดียว มีผลทุกเว็บภายใน 5 นาที
-```json
-{
-  "/login-2":      "https://member.ufavisions.com/",
-  "/register-2":   "https://member.ufavisions.com/register",
-  "/contact-us-2": "https://member.ufavisions.com/contact-us"
-}
-```
-
 ---
 
 ## 🚀 คำสั่งรัน
 
 ### ทดสอบ สุ่ม 1 เว็บ (Random)
 ```bash
-bash <(curl -s https://raw.githubusercontent.com/ufavision/remove3page-add-fast-redirect-muplugin/main/run-single.sh)
+bash <(curl -s https://raw.githubusercontent.com/AnonymousVS/remove3page-add-fast-redirect-muplugin/main/run-single.sh)
 ```
 - สุ่มเลือก 1 เว็บจากทุก WordPress ใน server
 - แสดงรายชื่อเว็บที่แก้ไขไปแล้ววันนี้
 
 ### รันทุกเว็บทั้ง Server
 ```bash
-bash <(curl -s https://raw.githubusercontent.com/ufavision/remove3page-add-fast-redirect-muplugin/main/run-all.sh)
+bash <(curl -s https://raw.githubusercontent.com/AnonymousVS/remove3page-add-fast-redirect-muplugin/main/run-all.sh)
 ```
 - รันทุกเว็บพร้อมกัน (Parallel ตาม Spec เครื่อง)
 - รองรับทุก /home, /home2 ... /home10
@@ -116,7 +107,4 @@ cat /root/redirect-logs/no-pages-found.log
 
 ---
 
-## 👤 ข้อมูล
 
-- GitHub: [ufavision](https://github.com/ufavision)
-- Redirect ปลายทาง: member.ufavisions.com
